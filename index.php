@@ -26,7 +26,7 @@ form p{
 <body>
 <h2 style="margin: 70px 10px 30px 10px;" align="center">Upload file untuk link email</h2>
 <form method="">
-    <label>Pilih file: (max 150MB)</label><br/>
+    <label>Pilih file: (max 500MB)</label><br/>
 	<input type="file" id="file" class="form-control"><br/>
     <button type="button" class="btn btn-success" id="btn_upload" disabled>
         <span class="glyphicon glyphicon-arrow-up"></span>
@@ -164,10 +164,10 @@ function mergeFile(file_obj) {
         processData: false,
         data: formdata,
         success:function(response) {
-            $('#message_info').html(response+`<p>Uploaded ${totalUploaded} bytes</p>`);
+            $('#message_info').html(response.data+`<p>Uploaded ${totalUploaded} bytes</p>`);
         },
         error:function(xhr, textStatus, error) {
-            $('#message_info').html(textStatus+" "+response);
+            $('#message_info').html("error: "+textStatus+" "+error);
         }
     });
 }
