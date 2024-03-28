@@ -14,8 +14,7 @@ for($i = 0; $i < $_POST['index']; $i++) {
 fclose($dst);
 
 $link = "https://".$_SERVER["SERVER_NAME"]."/download/".$_POST["name"];
-$htmlnya = '<h3>'.$_POST["name"].' sukses diupload<br><br>Link untuk email: <br><a href="'.$link.'">'.$link.'</a></h3>';
-kirimJson($htmlnya, $hasil);
+kirimJson($link, $hasil);
 
 function kirimJson($data, $msg, $status = 'success') {
   $response = array(

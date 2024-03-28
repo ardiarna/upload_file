@@ -10,13 +10,24 @@
 body{ 
   padding: 20px 
 }
-form{
+.dv-form{
   padding: 40px 20px;
   background: #d8e6e8; 
   border-radius: 10px; 
 }
-form p{
+.dv-form p{
   font-size:18px;
+}
+
+.btn-copy {
+    width: 70px;
+    height: 20px;
+    background-color: #cecece;
+    border: 0px;
+    font-size: 10px;
+    border-radius: 30px;
+    margin-left: 15px;
+    color: white;
 }
 
 </style>
@@ -25,7 +36,7 @@ form p{
 </head>
 <body>
 <h2 style="margin: 70px 10px 30px 10px;" align="center">Upload file untuk link email</h2>
-<form method="">
+<div class="dv-form">
     <label>Pilih file: (max 500MB)</label><br/>
 	<input type="file" id="file" class="form-control"><br/>
     <button type="button" class="btn btn-success" id="btn_upload" disabled>
@@ -36,7 +47,7 @@ form p{
         <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
     </div>
     <div id="message_info"></div>
-</form>
+</div>
 <script>
 
 var file_obj;
@@ -164,7 +175,17 @@ function mergeFile(file_obj) {
         processData: false,
         data: formdata,
         success:function(response) {
-            $('#message_info').html(response.data+`<p>Uploaded ${totalUploaded} bytes</p>`);
+            $('#message_info').html(`
+                <div>
+                    ${file_obj.name} sukses diupload <br><br>
+                    Link untuk email: <br>
+                    <a href="${response.data}" style="font-size: 20px;">${response.data}</a>
+                    <button onclick="copyKata('${response.data}')" class="btn-copy">
+                        Copy Link
+                    </button>
+                    <div style="padding-top: 10px;">Uploaded ${totalUploaded} bytes</div>
+                </div>
+            `);
         },
         error:function(xhr, textStatus, error) {
             $('#message_info').html("error: "+textStatus+" "+error);
@@ -178,6 +199,19 @@ function sleep(milliseconds) {
     do {
         currentDate = Date.now();
     } while(currentDate - date < milliseconds)
+}
+
+function copyKata(isi) {
+  var textarea = document.createElement('textarea');
+  textarea.value = isi;
+  textarea.style.position = 'fixed';
+  textarea.style.left = '-9999px';
+  document.body.appendChild(textarea);
+  textarea.select();
+  textarea.setSelectionRange(0, textarea.value.length);
+  document.execCommand('copy');
+  document.body.removeChild(textarea);
+  alert(`"${isi}" telah disalin ke clipboard`);
 }
 
 </script>
